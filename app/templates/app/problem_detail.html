@@ -1,0 +1,67 @@
+{% extends 'app/base.html' %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-10 align-items-center">
+    <h3>Problem {{ object.name }}</h3>
+    <table class="table table-bordered table-striped">
+      <tbody>
+        <tr>
+          <th scope="row">Acceptance</th>
+          <td>{{ object.acceptance }}</td>
+        </tr>
+        <tr>
+          <th scope="row">URL</th>
+          <td>{{ object.url }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Difficulty</th>
+          <td>{{ object.difficulty }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Description</th>
+          <td>{{ object.description }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Tags</th>
+          <td>
+            {{ object.tags.all|join:", " }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+      <h4>Solutions</h4>
+      {% for solution in solutions %}
+          <table class="table table-bordered table-striped">
+              <tbody>
+                <tr>
+                    <th scope="row">Date</th>
+                    <td>{{ solution.date_0 }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Date</th>
+                    <td>{{ solution.date_0 }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Big-oh</th>
+                    <td>{{ solution.big_oh }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Language code</th>
+                    <td>{{ solution.language_code }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Descripion</th>
+                    <td>{{ solution.description }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Solution</th>
+                    <td>{{ solution.solution_code }}</td>
+                </tr>
+              </tbody>
+          </table>
+      {% endfor %}
+  </div>
+</div>
+{% endblock %}

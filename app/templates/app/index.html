@@ -1,0 +1,107 @@
+{% extends 'app/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+    <h1 class="h2">Dashboard</h1>
+      <!-- search by problem name -->
+      <form>
+        <div class="form-row align-items-center">
+          <div class="col-auto my-1">
+            <div class="input-group">
+              <!-- <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Search problem by name...">-->
+              <form method="get" action="{% url 'search_by_name' %}" class="form-inline">
+                  {% csrf_token %}
+                    <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+                      <div class="input-group mb-2 mr-sm-2">
+                          <input type="text" class="form-control" id="input_text" placeholder="Find problems by name...">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text btn btn-info">Search</div>
+                          </div>
+                      </div>
+                  <!--<button class="btn btn-sm btn-info" type="submit">
+                    Search
+                  </button> -->
+              </form>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn btn-group">
+          <a class="btn btn-outline-success dropdown-toggle" href="#" role="button" id="dropdownMenuTag" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Tag
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuTag">
+            {% for tag in tags %}
+                <a class="dropdown-item" href="{% url 'find_by_tag' tag.0 %}">{{ tag.1 }}</a>
+             {% endfor %}
+          </div>
+        </div>
+        <div class="btn btn-group">
+            <a class="btn btn-outline-danger dropdown-toggle" href="#" role="button" id="dropdownMenuDifficulty" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Difficulty
+            </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuDifficulty">
+                {% for difficulty in difficulties %}
+                    <a class="dropdown-item" href="{% url 'find_by_difficulty' difficulty.0 %}">{{ difficulty.1 }}</a>
+                 {% endfor %}
+              </div>
+        </div>
+      </div>
+  </div>
+
+    <div class="row">
+      <div class=col-md-4>
+        <a href="{% url 'problem-create' %}" tpye='button' class="btn btn-primary btn-sm">Add new problem</a>
+      </div>
+    </div>
+    <div class="row" style="{ margin-bottom: 2px}">
+        <div class="col-md-9">
+            <h5>Name</h5>
+        </div>
+    </div>
+    {% for problem in problems %}
+        <div class="row">
+                <span class="col-md-8">
+                    <a href="{% url 'detail' problem.id %}">{{ problem.name }}</a>
+                </span>
+                <span class="col-md-1">
+                    <button type="button" class="btn btn-danger" data-target="#problem_delete_confirmation{{ problem.id }}" data-toggle="modal">
+                        Delete
+                    </button>
+                    <div class="modal face" id="problem_delete_confirmation{{ problem.id }}" tabindex="-1"  role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Delete problem</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you to delete problem {{ problem.name }}?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="post" action="{% url 'problem-delete' problem.id %}">
+                                        {% csrf_token %}
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <input type="submit" class="btn btn-danger" value="Delete"/>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </span>
+                <span class="col-md-1">
+                    <a class="btn btn-success" href="{% url 'problem-update' problem.id %}">Update</a>
+                </span>
+        </div>
+        <div class="col-md-9">
+            <br>
+        </div>
+    {% endfor %}
+    </div>
+  </div>
+{% endblock %}

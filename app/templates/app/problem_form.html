@@ -1,0 +1,98 @@
+{% extends 'app/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- <div class="row">
+  <div class="container-fluid">
+    <h3>New problem</h3>
+    <form action="{% url 'problem-create' %}" method="post">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="{{ form.name.id_for_label }}">Name</label>
+            <input type="text" id="{{form.name.id_for_label }}" class="form-control" placeholder="Valid Palindrome">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="{{ form.url.id_for_label }}">URL</label>
+            <input type="url" id="{{form.url.id_for_label }}" class="form-control" placeholder="https://leetcode.com">
+          </div>
+        </div>
+
+          <div class="form-group">
+            <label for="{{ form.difficulty.id_for_label }}">Difficulty</label>
+            <select class="form-control" id="{{ form.difficulty.id_for_label}}">
+              {% for id,value in form.difficulty.field.choices %}
+                <option name="{{ id }}" id="{{ id }}">{{ value }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.tags.id_for_label }}">Tags</label>
+            <select multiple class="form-control" name="{{ form.tags.id_for_label }}" name="{ form.tags.id_for_label }}">
+              {% for option in form.tags.field.queryset %}
+                <option id="{{ option.name }}" name="{{ option.name }}">{{ option.name | title }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        <div class="form-group">
+          <label for="{{ form.description.id_for_label }}">Problem description</label>
+          <textarea class="form-control" id="{{ form.description.id_for_label}}" rows="5"></textarea>
+        </div>
+
+        <hr>
+        <h4>Resoulution</h4>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="{{ resolution_form.date_0.id_for_label }}">Date</label>
+            <input type="date" id="{{ resolution_form.date_0.id_for_label}}" name="{{ resolution_form.date_0.id_for_label}}" class="form-control">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="{{ resolution_form.big_oh.id_for_label}}">Time complexity(big-oh)</label>
+            <select name="{{ resolution_form.big_oh.id_for_label}}" id="{{ resolution_form.big_oh.id_for_label}}" class="form-control">
+              {% for id,value in resolution_form.big_oh.field.choices %}
+                <option name="{{ id }}" id="{{ id }}">{{ value }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="{{ resolution_form.language_code.id_for_label }}">Language</label>
+          <input type="text" class="form-control" id="{{ resolution_form.language_code.id_for_label}}">
+        </div>
+        <div class="form-group">
+          <label for="{{ resolution_form.description.id_for_label }}">Solution description</label>
+          <textarea class="form-control" id="{{ resolution_form.description.id_for_label}}" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="{{ resolution_form.solution_code.id_for_label }}">Solution</label>
+          <textarea class="form-control" id="{{ form.description.id_for_label}}" rows="5"></textarea>
+        </div>
+        <input type="submit" value="Load" class="btn btn-primary">
+    </form>
+  </div>
+</div>  -->
+<div>
+  {% for error in form.errors %}
+    <p>{{ error }}</p>
+  {% endfor %}
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form|crispy }}
+    <br>
+    <h3>Resolutions</h3>
+    <fieldset>
+      {{ problem_resolution_form.management_form }}
+      {% for form in problem_resolution_form %}
+        {{ form | crispy }}
+          <br>
+      {% endfor %}
+    <button  type="submit"  class="btn btn-success">Save</button>
+</form>
+
+{% block bottom_scripts %}
+
+{% endblock %}
+
+{% endblock %}
